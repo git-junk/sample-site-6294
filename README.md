@@ -1,1 +1,1 @@
-# sample-site-app-6294
+# sample-site-6294
