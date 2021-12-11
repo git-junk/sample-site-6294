@@ -1,4 +1,3 @@
-from logging import debug
 from pathlib import Path
 import os
 
@@ -10,11 +9,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-!t97nj@_5r4io+f3l&(o9-!f=bmes$7y%#n^$4q4ezx952czjj'
+SECRET_KEY = 'django-insecure-!t97nj@_5r4io+f3l&(o9-!f=bmes$7y%#n^$4q4ezx952czjj'
 
 
-from socket import gethostname
-hostname = gethostname()
+# from socket import gethostname
+# hostname = gethostname()
 
 # if "DESKTOP-IMRHOOI" in hostname:
 #     # デバッグ環境
@@ -150,10 +149,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DEBUG = False
-if not DEBUG:
-    SECRET_KEY = os.environ['SECRET_KEY']
-    import django_heroku #追加
-    django_heroku.settings(locals()) #追加
+# if not DEBUG:
+#     SECRET_KEY = os.environ['SECRET_KEY']
+#     import django_heroku #追加
+#     django_heroku.settings(locals()) #追加
 
 #追加
 # try:
