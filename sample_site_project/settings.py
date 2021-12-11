@@ -11,10 +11,36 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-!t97nj@_5r4io+f3l&(o9-!f=bmes$7y%#n^$4q4ezx952czjj'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+from socket import gethostname
+hostname = gethostname()
 
-ALLOWED_HOSTS = ['sample-site-6294.herokuapp.com', '127.0.0.1', 'localhost']
+if "DESKTOP-IMRHOOI" in hostname:
+    # デバッグ環境
+    DEBUG = True 
+    DATABASES = {
+        'default':{
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'sample_site_db',
+            'USER': 'postgres',
+            'PASSWORD': 'possql0701',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+            }
+        }
+    ALLOWED_HOSTS = ['*'] 
+else:
+    # 本番環境
+    DEBUG = False
+    import dj_database_url
+    db_from_env = dj_database_url.config()
+    DATABASES = {
+        'default': dj_database_url.config()
+    }
+    ALLOWED_HOSTS = ['*']
+# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
+
+# ALLOWED_HOSTS = ['sample-site-6294.herokuapp.com', '127.0.0.1', 'localhost']
 # ALLOWED_HOSTS = []
 
 # Application definition
@@ -63,16 +89,16 @@ WSGI_APPLICATION = 'sample_site_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default':{
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sample_site_db',
-        'USER': 'postgres',
-        'PASSWORD': 'possql0701',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default':{
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'sample_site_db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'possql0701',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
