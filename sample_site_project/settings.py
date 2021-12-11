@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!t97nj@_5r4io+f3l&(o9-!f=bmes$7y%#n^$4q4ezx952czjj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['sample-site-6294.herokuapp.com', '127.0.0.1', 'localhost']
 # ALLOWED_HOSTS = []
@@ -64,9 +64,13 @@ WSGI_APPLICATION = 'sample_site_project.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'sample_site_db',
+        'USER': 'postgres',
+        'PASSWORD': 'possql0701',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
