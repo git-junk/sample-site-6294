@@ -9,34 +9,38 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!t97nj@_5r4io+f3l&(o9-!f=bmes$7y%#n^$4q4ezx952czjj'
+# SECRET_KEY = 'django-insecure-!t97nj@_5r4io+f3l&(o9-!f=bmes$7y%#n^$4q4ezx952czjj'
+if not DEBUG:
+    SECRET_KEY = os.environ['SECRET_KEY']
+    import django_heroku #追加
+    django_heroku.settings(locals()) #追加
 
 from socket import gethostname
 hostname = gethostname()
 
-if "DESKTOP-IMRHOOI" in hostname:
-    # デバッグ環境
-    DEBUG = True 
-    DATABASES = {
-        'default':{
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'sample_site_db',
-            'USER': 'postgres',
-            'PASSWORD': 'possql0701',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-            }
-        }
-    ALLOWED_HOSTS = ['*'] 
-else:
-    # 本番環境
-    DEBUG = False
-    import dj_database_url
-    db_from_env = dj_database_url.config()
-    DATABASES = {
-        'default': dj_database_url.config()
-    }
-    ALLOWED_HOSTS = ['*']
+# if "DESKTOP-IMRHOOI" in hostname:
+#     # デバッグ環境
+#     DEBUG = True 
+#     DATABASES = {
+#         'default':{
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': 'sample_site_db',
+#             'USER': 'postgres',
+#             'PASSWORD': 'possql0701',
+#             'HOST': '127.0.0.1',
+#             'PORT': '5432',
+#             }
+#         }
+#     ALLOWED_HOSTS = ['*'] 
+# else:
+#     # 本番環境
+#     DEBUG = False
+#     import dj_database_url
+#     db_from_env = dj_database_url.config()
+#     DATABASES = {
+#         'default': dj_database_url.config()
+#     }
+#     ALLOWED_HOSTS = ['*']
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
@@ -63,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #追加
 ]
 
 ROOT_URLCONF = 'sample_site_project.urls'
@@ -89,17 +94,17 @@ WSGI_APPLICATION = 'sample_site_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default':{
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'sample_site_db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'possql0701',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#     }
-# }
-
+DATABASES = {
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'name',
+        'USER': 'user',
+        'PASSWORD': '',
+        'HOST': 'host',
+        'PORT': '',
+    }
+}
+ALLOWED_HOSTS = ['*']
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -138,9 +143,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#追加
+try:
+    from .local_settings import *
+except ImportError:
+    pass
